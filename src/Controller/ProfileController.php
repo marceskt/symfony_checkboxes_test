@@ -104,4 +104,35 @@ class ProfileController extends AbstractController
 		);
 	}
 
+	/**
+	 * @Route(path="/{profile}", methods={"POST"}, name="post.profiles.update")
+	 * @param Request $request
+	 * @param Profile $profile
+	 * @return Response
+	 */
+	public function postUpdate(Request $request, Profile $profile): Response
+	{
+		/** @var string $name */
+		$name = $request->request->get('name');
+		/** @var integer[] $permissionsId */
+		$permissionsId = $request->request->get('permissions') ?? array();
+
+		/** @var Permission[] $permisosdb */
+		$permissions = $this->getDoctrine()->getRepository(Permission::class)->findAll();
+
+		foreach ($permissions as $permission) {
+			if (in_array($permission->getId(), $permissionsId)) {
+				$profile->addPermission($permission);
+			} else {
+				$profile->removePermission($permission);
+			}
+		}
+		$profile->setName($name);
+
+		$em = $this->getDoctrine()->getManager();
+		$em->flush();
+
+		return $this->getProfile($profile);
+	}
+
 }
