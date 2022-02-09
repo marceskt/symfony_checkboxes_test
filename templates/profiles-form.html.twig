@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-    <h3>Perfil</h3>
+    <h3>{% if profile is defined %}Modificar {% endif %}Perfil</h3>
     <form action="" method="post">
         <p>
             <label for="name">Nombre del perfil</label>
@@ -9,6 +9,9 @@
                 type="text"
                 name="name"
                 id="name"
+                {% if profile.name is defined %}
+                    value="{{ profile.name }}"
+                {% endif %}
             />
         </p>
         <ul>
@@ -20,6 +23,9 @@
                             name="permissions[]"
                             id="permission_{{ permission.id }}"
                             value="{{ permission.id }}"
+                            {% if permission.checked %}
+                                checked="checked"
+                            {% endif %}
                         />
                         {{ permission.name }}
                     </label>

@@ -76,4 +76,32 @@ class ProfileController extends AbstractController
 		return $this->redirectToRoute('get.profiles.listview');
 	}
 
+	/**
+	 * @Route(path="/{profile}", methods={"GET"}, name="get.profiles.itemview")
+	 * @param Profile $profile
+	 * @return Response
+	 */
+	public function getProfile(Profile $profile): Response
+	{
+		/** @var Permission[] $permissions */
+		$permissions = $this->getDoctrine()->getRepository(Permission::class)->findAll();
+
+		foreach ($permissions as $permission) {
+			$checked = false;
+			foreach ($profile->getPermissions() as $profilePermission) {
+				if ($profilePermission === $permission) {
+					$checked = true;
+				}
+			}
+			$permission->setChecked($checked);
+		}
+		return $this->render(
+			'profiles-form.html.twig',
+			array(
+				'profile' => $profile,
+				'permissions' => $permissions
+			)
+		);
+	}
+
 }
