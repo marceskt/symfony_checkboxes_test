@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Permission;
 use App\Entity\Profile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,22 @@ class ProfileController extends AbstractController
 			'profiles.html.twig',
 			array(
 				'profiles' => $profiles,
+			)
+		);
+	}
+
+	/**
+	 * @Route(path="/create", methods={"GET"}, name="get.profiles.create")
+	 * @return Response
+	 */
+	public function getCreate(): Response
+	{
+		/** @var Permission[] $permissions */
+		$permissions = $this->getDoctrine()->getRepository(Permission::class)->findAll();
+		return $this->render(
+			'profiles-form.html.twig',
+			array(
+				'permissions' => $permissions
 			)
 		);
 	}

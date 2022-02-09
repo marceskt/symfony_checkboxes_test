@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+    <h3>Perfil</h3>
+    <form action="" method="post">
+        <p>
+            <label for="name">Nombre del perfil</label>
+            <input
+                type="text"
+                name="name"
+                id="name"
+            />
+        </p>
+        <ul>
+            {% for permission in permissions %}
+                <li>
+                    <label for="permiso_{{ permission.name }}">
+                        <input
+                            type="checkbox"
+                            name="permissions[]"
+                            id="permission_{{ permission.id }}"
+                            value="{{ permission.id }}"
+                        />
+                        {{ permission.name }}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Aceptar</button>
+        <a href="{{ absolute_url('/') }}">Volver</a>
+    </form>
+{% endblock %}
