@@ -25,6 +25,11 @@ class Permission
 	 */
 	private $name;
 
+	/**
+	 * @var bool $checked (no se almacena)
+	 */
+	private $checked = false;
+
 	public function getId(): ?int
 	{
 		return $this->id;
@@ -39,6 +44,17 @@ class Permission
 	{
 		$this->name = $name;
 
+		return $this;
+	}
+
+	public function isChecked(): bool
+	{
+		return $this->checked;
+	}
+
+	public function setChecked(bool $checked): self
+	{
+		$this->checked = $checked;
 		return $this;
 	}
 
